@@ -13,23 +13,6 @@ questionNumber = 0
 subject = ""
 section = ""
 
-# @client.command()
-# async def displayembed():
-#   embed = discord.embed(
-#     title = 'title',
-#     description = "This is a description.",
-#     colour = discord.colour.blue()
-#   )
-
-#   embed.set_footer(text='This is a footer.')
-#   embed.set_image('background.jpg')
-
-# sad_words = ["sad", "depressed", "unhappy", "angry", "miserable", "depressing", "simp", "girl"]
-
-# starter_encouragements = [
-#   "SIMP",
-# ]
-
 infile = open('HonoursScience20FH-Teller.txt', 'r')
 allofit = infile.readlines()
 
@@ -206,20 +189,6 @@ def get_quote():
   quote = json_data[0]['q'] + " -" + json_data[0]['a']
   return(quote)
 
-# def update_encouragements(encouraging_message):
-#   if "encouragements" in db.keys():
-#     encouragements = db["encouragements"]
-#     encouragements.append(encouraging_message)
-#     db["encouragements"] = encouragements
-#   else:
-#     db["encouragements"] = [encouraging_message]
-
-# def delete_encouragement(index):
-#   encouragements = db["encouragements"]
-#   if len(encouragements) > index:
-#     del encouragements[index]
-#   db["encouragements"] = encouragements
-
 @client.event
 async def on_ready():
   print('We have logged in as {0.user}'.format(client))
@@ -315,20 +284,12 @@ async def on_message(message):
     subject = ""
     embed=discord.Embed(title="Question:", description=question ,color = 5483449)
     await message.channel.send(embed=embed)
-    # embedVar = discord.Embed(title = "yo", description = "D YO", color = 0x00ff00)
-    # embedVar.add_field(name="Field1", value = "hi", inline=False)
-    # embedVar.add_field(name="Field2", value = "hi", inline=False)
-    # await message.channel.send("Question:")
-    # await message.channel.send(question)
   elif msg.startswith('-count'):
     count = question_count()
     await message.channel.send("Number of Questions:")
     await message.channel.send(count)
   elif msg.startswith('!oracle'):
     messages = msg.split(" ")  
-    # test = msg.split("!oracle ")
-    # test = urllib.parse.urlencode(test[1])
-    # print(test)
     url = f"http://api.wolframalpha.com/v1/result?appid={os.getenv('WOLFRAMALPHA')}&i={messages[1]}"
     for m in range(2, len(messages)):
       url = url + "+" + str(messages[m])
@@ -338,53 +299,6 @@ async def on_message(message):
       return
     responseMessage = response.text
     await message.channel.send(responseMessage)
-
-  # elif msg.startswith('-list'):
-  #   questionList = question_list_Weather()
-  #   bold = True
-  #   for questionof in questionList:
-  #     if bold:
-  #       await message.channel.send("**" + questionof + "**")
-  #       bold = False
-  #     else:
-  #       await message.channel.send(questionof)
-  #       bold = True
-
-  # options = starter_encouragements
-  # if "encouragements" in db.keys():
-  #   options = options + db["encouragements"]
-
-  # if msg.startswith("$new"):
-  #   encouraging_message = msg.split("$new ", 1)[1]
-  #   update_encouragements(encouraging_message)
-  #   await message.channel.send("...")
-
-  # if msg.startswith("$del"):
-  #   encouragements = []
-  #   if "encouragements" in db.keys():
-  #     index = int(msg.split("$del", 1)[1])
-  #     delete_encouragement(index)
-  #     encouragements = db["encouragements"]
-  #   await message.channel.send(encouragements)
-
-
-
-
-  # if any(word in msg for word in sad_words):
-  #   await message.channel.send(random.choice(starter_encouragements))
-
-# @client.event()
-# async def oracle(ctx, *args):
-#   query = '+'.join(args)
-#   url = f"https://api.wolframalpha.com/v1/result=?appid={os.getenv('WOLFRAMALPHA')}&i={query}%3F"
-#   response = requests.get(url)
-
-#   if response.status_code == 501:
-#     await ctx.send("Unable to process that query")
-#     return
-
-#   await ctx.send(response.text)
-
 
 keep_alive()
 client.run(os.getenv('TOKEN'))
